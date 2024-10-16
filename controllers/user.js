@@ -16,17 +16,26 @@ try {
         return res.status(409).json('user already exists!');
     }
         // hash their password
+    const hashedPassword = hashSync(value.password, 10);    
         // save user to database  
+        await UserModel.create({
+            ...value,
+            password: hashedPassword
+        });
         // send user confirmation email
         // respond to requests 
         res.json('user registered successfully');
-} catch (error) {
+    } catch (error) {
    next(error); 
-}
+    }
 }
 export const loginUser = (req, res, next) => {
     res.json('user logged in');
 }
 export const logoutUser = (req, res, next) => {
     res.json('user logged out');
+}
+
+export const updateProfile = (req, res, next) => {
+    res.json('user profile updated');
 }
